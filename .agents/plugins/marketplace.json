@@ -1,0 +1,20 @@
+{
+  "name": "sc-workflows-marketplace",
+  "interface": {
+    "displayName": "SC Workflows"
+  },
+  "plugins": [
+    {
+      "name": "sc-workflows",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

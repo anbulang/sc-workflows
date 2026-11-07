@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="SC Workflows">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1677FF"/>
+      <stop offset="1" stop-color="#004DB3"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#g)"/>
+  <path d="M127 188c0-54 43-86 112-86 43 0 82 12 111 34l-33 66c-24-20-52-31-80-31-22 0-38 8-38 23 0 20 22 25 62 36 63 17 98 48 98 96 0 67-54 105-133 105-54 0-102-19-137-54l43-61c28 30 62 45 96 45 32 0 52-12 52-31 0-21-24-29-66-41-56-16-87-45-87-101Z" fill="#fff"/>
+  <path d="M404 148a139 139 0 0 0-48-37v76c18 18 28 42 28 69s-10 51-28 69v76a143 143 0 0 0 48-253Z" fill="#B7D4FF"/>
+</svg>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "SC: 视频中文化与文章发布"
+  short_description: "下载并中文化英文视频，完成剪辑、字幕与 Obsidian 配套文章"
+  default_prompt: "使用 $sc-localize-video-publish 下载并中文化这个英文视频，生成自然中文配音、中文字幕、保留原帧率的成片和配套文章。"

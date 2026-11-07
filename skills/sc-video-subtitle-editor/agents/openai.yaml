@@ -1,0 +1,4 @@
+interface:
+  display_name: "SC: 视频字幕剪辑"
+  short_description: "先分析视频内容，再完成转录、剪辑、校对与字幕交付全流程"
+  default_prompt: "使用 $sc-video-subtitle-editor 分析这个视频，并按内容选择合适的转录、剪辑、校对与字幕交付流程。"
