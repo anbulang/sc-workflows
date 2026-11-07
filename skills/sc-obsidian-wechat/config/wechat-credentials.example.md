@@ -1,0 +1,99 @@
+---
+appid: "your_appid_here"
+secret: "your_secret_here"
+access_token: ""
+token_expires: 0
+default_author: "作者名"
+default_thumb_media_id: ""
+default_style: "classic" # classic | deepblue
+# AI 自动封面配置（可选）
+ai_cover:
+  enabled: false
+  provider: "doubao" # doubao | openai | gemini
+  api_key: ""
+  base_url: "https://ark.cn-beijing.volces.com/api/v3"
+  endpoint: "/images/generations"
+  model: "doubao-seedream-5-0-260128"
+  size: "2K"
+  output_format: "png"
+  response_format: "" # 可选：url | b64_json；留空使用方舟默认
+  watermark: false
+  timeout: 90 # 图片生成通常比普通接口慢，单位秒
+  cache_enabled: true # 豆包封面按文章内容缓存，避免同一篇重复生图
+  aspect_ratio: "16:9" # Gemini 使用
+  image_size: "" # Gemini 可选，如 2K
+  output_suffix: ".png"
+  prompt_template: |
+    根据下面的微信公众号文章内容生成一张横版封面图。
+    要求：画面适合微信公众号封面，现代、清晰、有主题感，不要生成可读文字、Logo、水印或二维码。
+    标题：{title}
+    摘要：{digest}
+    正文：{content}
+---
+# 微信公众号凭证配置示例
+
+> **重要**: 推荐复制到 `~/.config/sc-obsidian-wechat/wechat-credentials.local.md` 并填入真实凭证。
+> 也可通过 `--config` 或 `SC_WECHAT_CONFIG` 指定其他位置。不要把真实凭证提交到 Git。
+
+## 配置说明
+
+### 必填项
+
+| 字段   | 说明             | 获取方式                             |
+| ------ | ---------------- | ------------------------------------ |
+| appid  | 公众号 AppID     | 公众号后台 → 设置与开发 → 基本配置 |
+| secret | 公众号 AppSecret | 同上，需管理员扫码确认               |
+
+### 可选项
+
+| 字段                   | 说明           | 用途                     |
+| ---------------------- | -------------- | ------------------------ |
+| access_token           | 可选访问令牌   | 留空时按需自动获取       |
+| token_expires          | 令牌过期时间戳 | 与手动令牌配套使用       |
+| default_author         | 默认作者名     | 文章未指定 author 时使用 |
+| default_thumb_media_id | 默认封面图 ID  | 文章未指定封面时使用     |
+| default_style          | 默认文章样式   | 可选 `classic` 或 `deepblue` |
+| ai_cover               | AI 自动封面配置 | 默认关闭，开启后会请求配置的生图服务 |
+
+## 配置步骤
+
+1. **获取 AppID 和 AppSecret**
+   - 登录 [微信公众平台](https://mp.weixin.qq.com)
+   - 进入「设置与开发」→「基本配置」
+   - 复制 AppID（开发者ID）
+   - 点击重置 AppSecret 并保存
+
+2. **配置 IP 白名单**
+   - 在同一页面找到「IP白名单」
+   - 添加你的公网 IP：
+     ```bash
+     curl -s ifconfig.me
+     ```
+
+3. **创建本地配置**
+   ```bash
+   mkdir -p ~/.config/sc-obsidian-wechat
+   cp config/wechat-credentials.example.md ~/.config/sc-obsidian-wechat/wechat-credentials.local.md
+   ```
+
+4. **填写凭证**
+   - 编辑 `~/.config/sc-obsidian-wechat/wechat-credentials.local.md`
+   - 将 `your_appid_here` 替换为实际 AppID
+   - 将 `your_secret_here` 替换为实际 AppSecret
+
+## 验证配置
+
+使用发布脚本处理一篇测试文章。脚本会自动获取令牌，并对错误信息中的 AppID、Secret 和 Token 做脱敏。不要在命令行或 issue 中直接粘贴真实 Secret。
+
+如果微信返回错误码 40164，通常说明 IP 白名单未配置。
+
+## AI 自动封面（可选）
+
+默认关闭自动封面，避免在未明确授权时请求外部生图服务。
+
+1. 在 `ai_cover.provider` 中选择 `doubao`、`openai` 或 `gemini`
+2. 填入对应服务的 `api_key`、`base_url`、`model`
+3. 设置 `ai_cover.enabled: true`
+4. 如需定制风格，修改 `prompt_template`
+
+> 说明：Nano Banana 是 Gemini 的图片生成能力，请使用 `provider: "gemini"`。旧的 `provider: "nanobanana"` 会作为兼容别名处理。

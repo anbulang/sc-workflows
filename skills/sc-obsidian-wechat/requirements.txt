@@ -1,0 +1,9 @@
+requests>=2.28.0
+PyYAML>=6.0
+Markdown>=3.4.0
+Pygments>=2.14.0
+
+# Optional media support:
+# Pillow>=10.0.0       # WebP and unsupported raster conversion
+# CairoSVG>=2.7.0      # SVG conversion
+# playwright>=1.40.0   # local Mermaid rendering fallback

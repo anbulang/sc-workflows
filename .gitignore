@@ -2,6 +2,10 @@ __pycache__/
 *.py[cod]
 .DS_Store
 .venv/
+.env
+.env.*
+*.local.md
+.wechat-cover-cache/
 dist/
 *.zip
 *.mp4

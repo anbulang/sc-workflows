@@ -1,0 +1,8 @@
+interface:
+  display_name: "SC: Obsidian 微信公众号发布"
+  short_description: "把 Obsidian 文章排版并提交到微信公众号草稿箱"
+  brand_color: "#07C160"
+  default_prompt: "使用 $sc-obsidian-wechat 将这篇 Obsidian Markdown 转成微信公众号格式，并按我的要求生成 HTML 或上传到草稿箱。"
+
+policy:
+  allow_implicit_invocation: true

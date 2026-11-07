@@ -1,7 +1,7 @@
 {
   "name": "sc-workflows",
-  "version": "0.1.0",
-  "description": "Chinese-first Codex workflows for video transcription, subtitle editing, and English-to-Chinese video localization and publishing.",
+  "version": "0.2.0",
+  "description": "Chinese-first Codex workflows for video editing, English-to-Chinese localization, Obsidian writing, and WeChat draft publishing.",
   "author": {
     "name": "anbulang",
     "url": "https://github.com/anbulang"
@@ -15,13 +15,16 @@
     "video",
     "subtitles",
     "localization",
-    "chinese"
+    "chinese",
+    "obsidian",
+    "wechat",
+    "publishing"
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "SC: Video Workflows",
-    "shortDescription": "视频转录、字幕剪辑与英文视频中文化发布",
-    "longDescription": "一组面向中文创作者的可复用视频工作流：先分析内容再完成转录、剪辑与字幕交付，或把英文视频本地化为带中文配音、字幕和配套文章的成片。",
+    "displayName": "SC: Content Workflows",
+    "shortDescription": "视频中文化、字幕剪辑与微信公众号内容发布",
+    "longDescription": "一组面向中文创作者的可复用工作流：完成视频转录、剪辑和字幕交付，把英文视频本地化为中文成片与配套文章，并将 Obsidian Markdown 排版后提交到微信公众号草稿箱。",
     "developerName": "anbulang",
     "category": "Productivity",
     "capabilities": [
@@ -31,7 +34,8 @@
     "websiteURL": "https://github.com/anbulang/sc-workflows",
     "defaultPrompt": [
       "使用 SC: 视频字幕剪辑分析这个视频，并生成校对后的字幕。",
-      "使用 SC: 视频中文化与文章发布，把这个英文视频制作成中文配音和中文字幕版本。"
+      "使用 SC: 视频中文化与文章发布，把这个英文视频制作成中文配音和中文字幕版本。",
+      "使用 SC: Obsidian 微信公众号发布，把这篇文章排版后提交到公众号草稿箱。"
     ],
     "brandColor": "#1677FF",
     "composerIcon": "./assets/icon.svg",

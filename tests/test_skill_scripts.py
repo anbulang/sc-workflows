@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -91,6 +92,66 @@ class LocalizationTests(unittest.TestCase):
         self.assertEqual(self.pacing.pace_label(0.93), "舒缓")
         self.assertEqual(self.pacing.pace_label(1.0), "自然")
         self.assertEqual(self.pacing.pace_label(1.07), "强调加快")
+
+
+class ObsidianWechatTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.wechat = load_module(
+            "sc_obsidian_wechat",
+            "skills/sc-obsidian-wechat/scripts/publish_to_wechat.py",
+        )
+
+    def test_explicit_config_path_has_priority(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "credentials.local.md"
+            path.write_text("---\nappid: demo\nsecret: demo\n---\n", encoding="utf-8")
+            previous = os.environ.get("SC_WECHAT_CONFIG")
+            os.environ["SC_WECHAT_CONFIG"] = "/tmp/ignored.local.md"
+            try:
+                self.assertEqual(self.wechat.resolve_config_file(str(path)), path.resolve())
+            finally:
+                if previous is None:
+                    os.environ.pop("SC_WECHAT_CONFIG", None)
+                else:
+                    os.environ["SC_WECHAT_CONFIG"] = previous
+
+    def test_html_output_does_not_create_draft(self):
+        originals = {
+            name: getattr(self.wechat, name)
+            for name in (
+                "load_config",
+                "get_access_token",
+                "process_content_workflow",
+                "choose_article_style",
+                "md_to_html",
+                "publish_draft",
+            )
+        }
+        called = {"draft": False}
+        self.wechat.load_config = lambda path=None: {"default_style": "classic"}
+        self.wechat.get_access_token = lambda config: "token"
+        self.wechat.process_content_workflow = lambda content, token, article_dir: ({}, "body")
+        self.wechat.choose_article_style = lambda frontmatter, config, style=None: "classic"
+        self.wechat.md_to_html = lambda body, style=None: "<section>preview</section>"
+
+        def fail_if_published(*args, **kwargs):
+            called["draft"] = True
+            return {"media_id": "unexpected"}
+
+        self.wechat.publish_draft = fail_if_published
+        try:
+            with tempfile.TemporaryDirectory() as temp:
+                source = Path(temp) / "article.md"
+                output = Path(temp) / "article.html"
+                source.write_text("# Article\n", encoding="utf-8")
+                result = self.wechat.main(str(source), html_output=str(output))
+                self.assertEqual(result, 0)
+                self.assertEqual(output.read_text(encoding="utf-8"), "<section>preview</section>")
+                self.assertFalse(called["draft"])
+        finally:
+            for name, value in originals.items():
+                setattr(self.wechat, name, value)
 
 
 if __name__ == "__main__":
